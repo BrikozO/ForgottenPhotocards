@@ -1,0 +1,26 @@
+FROM python:3.10.5-alpine
+
+LABEL maintainer="brikocorp@gmail.com"
+
+RUN mkdir "app"
+RUN addgroup -S app && adduser -S app -G app
+
+ENV WEB_APP=/app/web
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir $WEB_APP
+RUN mkdir $WEB_APP/static
+RUN mkdir $WEB_APP/blogdata
+
+WORKDIR $WEB_APP
+
+RUN pip install --upgrade pip
+COPY ./requirements.txt $WEB_APP
+RUN pip install -r requirements.txt
+
+COPY . $WEB_APP
+
+RUN chown -R app:app $WEB_APP
+
+CMD python manage.py migrate && gunicorn ZabytyePhotokartochki.wsgi:application --bind 0.0.0.0:8000

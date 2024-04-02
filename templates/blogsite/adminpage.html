@@ -1,0 +1,32 @@
+{% extends 'blogsite/base.html' %}
+{% block title %}Админка{% endblock %}
+{% block header_items %}
+    <section id="contact" class="border-top contact-detail my-5 bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 detail-content">
+                    <div class="text-content mt-5">
+
+                        <div class="section-header">
+                            <h2 class="section-title">Админка</h2>
+                        </div><!--section-header-->
+
+                        <p>Пока есть возможность только обновить список постов</p>
+
+                        <form id="form" class="form-group" method="post">
+                            {% csrf_token %}
+                            <input type="submit" class="btn btn-dark px-5 py-3 mb-4" value="Обновить посты">
+                            {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                <li{% if message.tags %} class="text-{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

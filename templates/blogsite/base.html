@@ -1,0 +1,87 @@
+{% load static %}
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static "blogsite/css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "blogsite/css/chocolat.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "blogsite/css/aos.css" %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+          rel="stylesheet">
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body onload="onLoadPage()" data-bs-theme="{% if theme %}{{ theme }}{% else %}light{% endif %}">
+    <header id="header" class="fixed-top">
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="navbar navbar-white navbar-expand-lg py-4">
+                <div class="navbar-brand">
+                    <a href="{% url 'mainpage' %}">
+                        <img id="logo" style="margin-left: 3em" src="{{ MEDIA_URL }}sources/logolight.png" alt="logo">
+                    </a>
+                </div>
+
+                    <div class="navbar-collapse collapse justify-content-end me-5" id="slide-navbar-collapse">
+                        <ul id="slide-down" class="navbar-nav gap-4">
+                        {% block header_row_items %}{% endblock %}
+                            <li class="nav-item form-check form-switch form-check-reverse">
+                                <input class="btn-check" type="checkbox" role="switch" id="darkModeSwitch" autocomplete="off">
+                                <label class="btn nav-link" for="darkModeSwitch">Тёмная тема</label>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            {% block header_items %}
+            {% endblock %}
+        </div>
+    </header>
+{% block content %}
+    <div class="bi b"></div>
+{% endblock %}
+<script src="{% static "blogsite/js/jquery-3.7.1.min.js" %}"></script>
+<script type="text/javascript" src="{% static "blogsite/js/isotope.pkgd.js" %}"></script>
+<script type="text/javascript" src="{% static "blogsite/js/aos.js" %}"></script>
+<script type="text/javascript" src="{% static "blogsite/js/chocolat.js" %}"></script>
+<script type="text/javascript" src="{% static "blogsite/js/script.js" %}"></script>
+<script>
+    const darkModeSwitchInput = document.querySelector('input#darkModeSwitch');
+    const navigation = document.querySelector(".navbar");
+    const themeSwitchLogic = (onLoad=false) => {
+        let currentState = document.body.getAttribute('data-bs-theme');
+        if (onLoad) {
+            if (currentState === 'light') currentState = 'dark';
+            else currentState = 'light';
+        }
+        switch (currentState) {
+        case "light":
+            navigation.setAttribute('class', "navbar navbar-dark navbar-expand-lg py-4")
+            document.body.setAttribute('data-bs-theme', "dark");
+            document.getElementById('logo').src = '{{ MEDIA_URL }}sources/logodark.png';
+            document.cookie = 'theme=dark';
+          break;
+        default:
+            navigation.setAttribute('class', "navbar navbar-white navbar-expand-lg py-4")
+            document.body.setAttribute('data-bs-theme', "light");
+            document.getElementById('logo').src = '{{ MEDIA_URL }}sources/logolight.png';
+            document.cookie = 'theme=light';
+      }
+    }
+    const onLoadPage = () => {
+        themeSwitchLogic(true);
+    }
+    const themeSwitch = () => {
+      themeSwitchLogic();
+    };
+
+    darkModeSwitchInput.addEventListener('change', themeSwitch);
+</script>
+</body>
+</html>

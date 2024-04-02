@@ -1,0 +1,165 @@
+{% extends "blogsite/base.html" %}
+{% load bootstrap_icons %}
+{% block title %}Забытые фотокарточки{% endblock %}
+{% block header_row_items %}
+    <li class="nav-item"><a href="#billboard" class="nav-link">Инфо</a></li>
+    <li class="nav-item"><a href="#about" class="nav-link">Обо мне</a></li>
+    <li class="nav-item"><a href="#photocards" class="nav-link">Фотокарточки</a></li>
+    <li class="nav-item"><a href="#contact" class="nav-link">Контакты</a></li>
+    {% if user.is_authenticated %}
+        <li><a href="{% url "adminpage" %}" class="nav-link">Админка</a></li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+
+    <div id="billboard">
+        <div class="container-logo">
+            <div class="row">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
+                    <figure class="bannering position-relative">
+                        <div class="text-content aos-init aos-animate" data-aos="fade-in">
+                            <h1 class="display-2">Фотограф Олег Якушев</h1>
+                            <h4 class="py-3">Москва, Россия</h4>
+                            <a href="#about" class="btn btn-dark px-5 py-3">Обо мне</a>
+                        </div>
+                        <img src="{{ MEDIA_URL }}sources/info.jpg" class="img-fluid" alt="photographer">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div><!--billboard-->
+
+    <section id="about" class="personal-info my-2 py-2 my-md-5 py-md-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <figure data-aos="zoom-in-left">
+                        <img src="{{ MEDIA_URL }}sources/about_me.jpg" class="img-fluid" alt="photographer">
+                    </figure>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-content m-2 p-2 m-md-5 p-md-5" data-aos="zoom-in-right">
+                        <div class="section-header">
+                            <h2 class="section-title">Обо мне</h2>
+                        </div><!--section-header-->
+
+                        <div class="description">
+                            <p>Программист из Москвы, занимающийся разработкой backend'a на Python с использованием
+                                Django.
+                                В свободное от работы время - пленочный фотограф с личным каналом-блогом "Забытые
+                                фотокарточки",
+                                которому посвящен данный сайт.</p>
+                            <p>Технический стек проекта: django, telethon, aiohttp, redis, postgresql.</p>
+                        </div>
+
+                        <div class="btn-left">
+                            <a href="#photocards" class="btn btn-dark px-5 py-3">Мои работы</a>
+                        </div>
+
+                    </div><!--text-content-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="photocards" id="photocards">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="section-header text-center">
+                    <h2 class="section-title fs-1">Фотокарточки</h2>
+                </div>
+
+                <div id="filters" class="button-group d-flex gap-4 justify-content-center py-5">
+                    <a href="#" class="text-decoration-none text-uppercase is-checked" data-filter=".Architecture">Архитектура</a>
+                    <a href="#" class="text-decoration-none text-uppercase" data-filter=".Portrait">Портреты</a>
+                    <a href="#" class="text-decoration-none text-uppercase" data-filter=".Urban">Города</a>
+                    <a href="#" class="text-decoration-none text-uppercase" data-filter=".Event">Мероприятия</a>
+                    <a href="#" class="text-decoration-none text-uppercase" data-filter=".Other">Другое</a>
+                </div>
+
+            </div>
+
+            <div class="grid p-0 clearfix row row-cols-2 row-cols-md-3 row-cols-lg-5">
+                {% for picture in pictures %}
+                    <div class="col mb-4 photocards-item
+                            {% for category in picture.categories.all %}{{ category.get_category_display }} {% endfor %}">
+                        <a href="{{ picture.image.url }}" class="chocolat-image"
+                           title="{{ picture.picture_post.text }}"><img src="{{ picture.image.url }}"
+                                                                                       class="img-fluid"
+                                                                                       alt="portfolio"></a>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+
+    <section id="contact" class="border-top contact-detail my-5 bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 detail-content">
+                    <div class="text-content mt-5">
+
+                        <div class="section-header">
+                            <h2 class="section-title">Связь со мной</h2>
+                        </div><!--section-header-->
+
+                        <p>Буду рад вашим предложениям и комментариям!</p>
+
+                        <form id="form" method="post" class="form-group">
+                            {% csrf_token %}
+                            <div class="text-input row">
+                                {% for field in form %}
+                                    <div class="col-md-{% if field.auto_id == "id_message" %}12{% else %}6{% endif %} mb-3">
+                                        {{ field.label_tag }}
+                                        <div>{{ field }}</div>
+                                        <div class="errors text-danger">{{ field.errors }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <input type="submit" class="btn btn-dark px-5 py-3 mb-4" value="Отправить">
+                        </form>
+                    </div>
+                </div><!--text-content-->
+            </div>
+            <div class="col-md-6">
+                {#                    <figure class="contact-image">#}
+                {#                        <img src="{{ MEDIA_URL }}sources/contact_me.png" alt="contact">#}
+                {#                    </figure>#}
+            </div>
+
+        </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="mt-5 pt-5">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="footer-menu col-md-4">
+                    <h3 class="widget-title">Контакты</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="mailto:contact@yourwebsite.com">brikocorp@gmail.com</a></li>
+                        <li>+7(985)-743-12-73</li>
+                    </ul>
+                </div>
+
+                <div class="footer-menu social-links col-md-4">
+                    <h3 class="widget-title">Соцсети</h3>
+                    <ul class="list-unstyled d-flex gap-3">
+                        <li><a class="glyphicon-resize-full"
+                               href="https://t.me/Brikoz">{% bs_icon 'telegram' size='32px' %}</a></li>
+                        <li><a href="https://github.com/BrikozO">{% bs_icon 'github' size='32px' %}</a></li>
+                        <li><a href="https://vk.com/brikoz">{% custom_icon 'vk' size='32px' %}</a></li>
+                    </ul>
+                </div>
+
+            </div><!--footer-content-->
+        </div>
+    </footer>
+
+{% endblock %}
