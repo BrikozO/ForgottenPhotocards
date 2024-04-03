@@ -21,7 +21,7 @@
     <header id="header" class="fixed-top">
         <div class="container-fluid">
             <div class="row">
-                <nav class="navbar navbar-white navbar-expand-lg py-4">
+                <nav class="navbar navbar-white navbar-expand-sm py-4">
                 <div class="navbar-brand">
                     <a href="{% url 'mainpage' %}">
                         <img id="logo" style="margin-left: 3em" src="{{ MEDIA_URL }}sources/logolight.png" alt="logo">
@@ -62,13 +62,13 @@
         }
         switch (currentState) {
         case "light":
-            navigation.setAttribute('class', "navbar navbar-dark navbar-expand-lg py-4")
+            navigation.setAttribute('class', "navbar navbar-dark navbar-expand-sm py-4")
             document.body.setAttribute('data-bs-theme', "dark");
             document.getElementById('logo').src = '{{ MEDIA_URL }}sources/logodark.png';
             document.cookie = 'theme=dark';
           break;
         default:
-            navigation.setAttribute('class', "navbar navbar-white navbar-expand-lg py-4")
+            navigation.setAttribute('class', "navbar navbar-white navbar-expand-sm py-4")
             document.body.setAttribute('data-bs-theme', "light");
             document.getElementById('logo').src = '{{ MEDIA_URL }}sources/logolight.png';
             document.cookie = 'theme=light';

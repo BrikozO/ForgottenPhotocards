@@ -23,4 +23,4 @@ COPY . $WEB_APP
 
 RUN chown -R app:app $WEB_APP
 
-CMD python manage.py migrate && gunicorn ZabytyePhotokartochki.wsgi:application --bind 0.0.0.0:8000
+CMD python manage.py migrate && gunicorn ForgottenPhotocards.wsgi:application --bind 0.0.0.0:8000
