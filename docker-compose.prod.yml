@@ -61,11 +61,23 @@ services:
     volumes:
       - static_volume:/app/web/static
       - media_volume:/app/web/blogdata
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
       - ./nginxconf/nginx.conf:/etc/nginx/nginx.conf
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - web
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot --webroot-path=/var/www/certbot/ --email brikocorp@gmail.com --agree-tos --no-eff-email -d forgottenphotocards.ru -d www.forgottenphotocards.ru
+    depends_on:
+      - nginx
+
 volumes:
   static_volume:
   media_volume:
