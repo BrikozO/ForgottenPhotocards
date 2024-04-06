@@ -36,6 +36,7 @@ services:
     container_name: celery
     build:
       context: .
+      dockerfile: ./Dockerfile_prod
     command: celery -A ForgottenPhotocards worker --loglevel=info
     env_file:
       - ./.env.docker_prod
@@ -46,6 +47,7 @@ services:
     container_name: flower
     build:
       context: .
+      dockerfile: ./Dockerfile_prod
     command: celery -A ForgottenPhotocards flower
     ports:
       - 5555:5555
@@ -57,7 +59,7 @@ services:
       - celery
   nginx:
     container_name: nginx_web
-    image: nginx:latest
+    image: nginx:1.25
     volumes:
       - static_volume:/app/web/static
       - media_volume:/app/web/blogdata
