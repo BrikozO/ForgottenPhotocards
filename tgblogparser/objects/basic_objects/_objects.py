@@ -7,7 +7,7 @@ class BasicURL:
     if settings.DEBUG:
         url: str = f"http://{config('BLOGHOST')}:8000/api/v1/"
     else:
-        f"https://{config('ALLOWED_HOSTS').split(',')[0]}/api/v1/"
+        url: str = f"https://{config('ALLOWED_HOSTS').split(',')[0]}/api/v1/"
 
 
 class BasicSerializer:
