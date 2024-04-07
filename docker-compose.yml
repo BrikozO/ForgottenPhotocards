@@ -60,13 +60,12 @@ services:
   nginx:
     container_name: nginx_web
     image: nginx:latest
-    command: rm /etc/nginx/conf.d/default.conf
     volumes:
       - static_volume:/app/web/static
       - media_volume:/app/web/blogdata
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-      - ./nginxconf/nginx.conf:/etc/nginx/conf.d
+      - ./nginxconf:/etc/nginx/conf.d
     ports:
       - 80:80
       - 443:443
