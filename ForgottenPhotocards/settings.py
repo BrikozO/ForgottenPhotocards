@@ -142,7 +142,7 @@ MEDIA_ROOT = BASE_DIR / 'blogdata/'
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.IsAdminUser',
     ],
     "DEFAULT_SCHEMA_CLASS": 'drf_spectacular.openapi.AutoSchema',
     "DEFAULT_AUTHENTICATION_CLASSES": [

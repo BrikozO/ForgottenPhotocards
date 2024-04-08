@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{% static "blogsite/css/style.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "blogsite/css/chocolat.css" %}">
     <link rel="stylesheet" type="text/css" href="{% static "blogsite/css/aos.css" %}">
-    <link rel="shortcut icon" type="image/png" href="{% static "blogsite/32officeicons-6_89731.ico" %}">
+    <link rel="shortcut icon" type="image/png" href="{% static "blogsite/favicon.ico" %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap"
@@ -23,18 +23,17 @@
         <div class="container-fluid">
             <div class="row">
                 <nav class="navbar navbar-white navbar-expand-sm py-4">
-                <div class="navbar-brand">
-                    <a href="{% url 'mainpage' %}">
-                        <img id="logo" style="margin-left: 3em" src="{{ MEDIA_URL }}sources/logolight.png" alt="logo">
-                    </a>
-                </div>
-
+                    <div class="container">
+                        <a class="navbar-brand" href="{% url 'mainpage' %}">
+                            <img id="logo" style="margin-left: 3em" src="{{ MEDIA_URL }}sources/logolight.png" alt="logo">
+                        </a>
+                    </div>
                     <div class="navbar-collapse collapse justify-content-end me-5" id="slide-navbar-collapse">
                         <ul id="slide-down" class="navbar-nav gap-4">
                         {% block header_row_items %}{% endblock %}
                             <li class="nav-item form-check form-switch form-check-reverse">
                                 <input class="btn-check" type="checkbox" role="switch" id="darkModeSwitch" autocomplete="off">
-                                <label class="btn nav-link" for="darkModeSwitch">Тёмная тема</label>
+                                <label class="btn nav-link" id="labelForDarkModeSwitch" for="darkModeSwitch">Темная тема</label>
                             </li>
                         </ul>
                     </div>
@@ -66,12 +65,16 @@
             navigation.setAttribute('class', "navbar navbar-dark navbar-expand-sm py-4")
             document.body.setAttribute('data-bs-theme', "dark");
             document.getElementById('logo').src = '{{ MEDIA_URL }}sources/logodark.png';
+            document.getElementById("darkModeSwitch").textContent = "Светлая тема"
+            document.getElementById("labelForDarkModeSwitch").textContent = "Светлая тема"
             document.cookie = 'theme=dark';
           break;
         default:
             navigation.setAttribute('class', "navbar navbar-white navbar-expand-sm py-4")
             document.body.setAttribute('data-bs-theme', "light");
             document.getElementById('logo').src = '{{ MEDIA_URL }}sources/logolight.png';
+            document.getElementById("darkModeSwitch").textContent = "Темная тема"
+            document.getElementById("labelForDarkModeSwitch").textContent = "Темная тема"
             document.cookie = 'theme=light';
       }
     }
