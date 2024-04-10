@@ -65,8 +65,8 @@
             navigation.setAttribute('class', "navbar navbar-dark navbar-expand-sm py-4")
             document.body.setAttribute('data-bs-theme', "dark");
             document.getElementById('logo').src = '{{ MEDIA_URL }}sources/logodark.png';
-            document.getElementById("darkModeSwitch").textContent = "Светлая&nbsp;тема"
-            document.getElementById("labelForDarkModeSwitch").textContent = "Светлая&nbsp;тема"
+            document.getElementById("darkModeSwitch").innerHTML = "Светлая&nbsp;тема"
+            document.getElementById("labelForDarkModeSwitch").innerHTML = "Светлая&nbsp;тема"
             document.cookie = 'theme=dark';
           break;
         default:
