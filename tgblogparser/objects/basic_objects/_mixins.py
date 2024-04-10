@@ -15,6 +15,7 @@ class ApiPostRequestMixin(BasicURL, BasicSerializer):
 
 class ApiGetRequestMixin(BasicURL):
 
+    @AuthorizationRequired
     async def get_request(self, session: ClientSession, *args) -> bool:
         uri: str = self.url
         token: str = await RedisWorker.get_user()
@@ -22,7 +23,6 @@ class ApiGetRequestMixin(BasicURL):
             uri += f"{arg}/"
 
         async with session.get(uri, headers={"Authorization": f'Token {token}'}) as response:
-            print(response.headers)
             return response.status == 200
 
 

@@ -1,7 +1,7 @@
 import aiohttp
 from telethon.tl.types import MessageService
-
 from tgblogparser.config import client, channel
+from tgblogparser.objects.basic_objects import clear_pictures_cache
 from tgblogparser.tg_handlers import get_telegram_post, get_telegram_picture
 
 
@@ -18,6 +18,7 @@ async def get_posts(messages):
                     yield picture
 
 
+@clear_pictures_cache
 async def update_posts():
     messages = await get_client_messages()
     async for elem in get_posts(messages):
