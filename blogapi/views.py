@@ -18,7 +18,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class AllPicturesList(generics.ListCreateAPIView):
-    queryset = Picture.objects.all()
+    queryset = Picture.objects.all().prefetch_related('categories').select_related('picture_post')
     serializer_class = PictureSerializer
 
 
@@ -27,7 +27,7 @@ class PicturesOfPostList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         post_id = self.kwargs['grouped_id']
-        return Picture.objects.filter(picture_post=post_id)
+        return Picture.objects.filter(picture_post=post_id).prefetch_related('categories').select_related('picture_post')
 
 
 class PictureView(generics.RetrieveUpdateDestroyAPIView):
@@ -37,4 +37,4 @@ class PictureView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         post_id = self.kwargs['grouped_id']
-        return Picture.objects.filter(picture_post=post_id)
+        return Picture.objects.filter(picture_post=post_id).prefetch_related('categories').select_related('picture_post')

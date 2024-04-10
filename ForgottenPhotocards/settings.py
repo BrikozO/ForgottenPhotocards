@@ -180,3 +180,11 @@ CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
 
 # Deployment
 CSRF_TRUSTED_ORIGINS = ['https://' + domain for domain in config('ALLOWED_HOSTS').split(',')]
+
+# Cache
+CACHES = {
+    "default": {
+        "BACKEND": 'django.core.cache.backends.redis.RedisCache',
+        "LOCATION": f'redis://{REDIS_HOST}:{REDIS_PORT}',
+    }
+}

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -14,7 +15,7 @@ from .tasks import update_posts
 
 
 def index(request):
-    pictures = Picture.objects.filter(~Q(categories=None))
+    pictures = cache.get_or_set('pictures', Picture.objects.filter(~Q(categories=None)).prefetch_related('categories').select_related('picture_post'))
     theme: str = request.COOKIES.get('theme')
     if request.method == 'POST':
         form = SendEmailMessageForm(request.POST)

@@ -33,7 +33,7 @@
                         {% block header_row_items %}{% endblock %}
                             <li class="nav-item form-check form-switch form-check-reverse">
                                 <input class="btn-check" type="checkbox" role="switch" id="darkModeSwitch" autocomplete="off">
-                                <label class="btn nav-link" id="labelForDarkModeSwitch" for="darkModeSwitch">Темная тема</label>
+                                <label class="btn nav-link" id="labelForDarkModeSwitch" for="darkModeSwitch">Темная&nbsp;тема</label>
                             </li>
                         </ul>
                     </div>
@@ -65,16 +65,16 @@
             navigation.setAttribute('class', "navbar navbar-dark navbar-expand-sm py-4")
             document.body.setAttribute('data-bs-theme', "dark");
             document.getElementById('logo').src = '{{ MEDIA_URL }}sources/logodark.png';
-            document.getElementById("darkModeSwitch").textContent = "Светлая тема"
-            document.getElementById("labelForDarkModeSwitch").textContent = "Светлая тема"
+            document.getElementById("darkModeSwitch").textContent = "Светлая&nbsp;тема"
+            document.getElementById("labelForDarkModeSwitch").textContent = "Светлая&nbsp;тема"
             document.cookie = 'theme=dark';
           break;
         default:
             navigation.setAttribute('class', "navbar navbar-white navbar-expand-sm py-4")
             document.body.setAttribute('data-bs-theme', "light");
             document.getElementById('logo').src = '{{ MEDIA_URL }}sources/logolight.png';
-            document.getElementById("darkModeSwitch").textContent = "Темная тема"
-            document.getElementById("labelForDarkModeSwitch").textContent = "Темная тема"
+            document.getElementById("darkModeSwitch").innerHTML = "Темная&nbsp;тема"
+            document.getElementById("labelForDarkModeSwitch").innerHTML = "Темная&nbsp;тема"
             document.cookie = 'theme=light';
       }
     }

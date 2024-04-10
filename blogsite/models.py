@@ -20,7 +20,7 @@ class Post(models.Model):
         ordering = ['publish_date']
 
     def __str__(self):
-        return self.text
+        return self.text[:128]
 
 
 class Picture(models.Model):

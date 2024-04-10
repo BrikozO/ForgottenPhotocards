@@ -3,7 +3,7 @@
 {% block title %}Забытые фотокарточки{% endblock %}
 {% block header_row_items %}
     <li class="nav-item"><a href="#billboard" class="nav-link">Инфо</a></li>
-    <li class="nav-item"><a href="#about" class="nav-link">Обо мне</a></li>
+    <li class="nav-item"><a href="#about" class="nav-link">Обо&nbsp;мне</a></li>
     <li class="nav-item"><a href="#photocards" class="nav-link">Фотокарточки</a></li>
     <li class="nav-item"><a href="#contact" class="nav-link">Контакты</a></li>
     {% if user.is_authenticated %}
@@ -51,7 +51,7 @@
                                 В свободное от работы время - пленочный фотограф с личным каналом-блогом "Забытые
                                 фотокарточки",
                                 которому посвящен данный сайт.</p>
-                            <p>Технический стек проекта: django, telethon, aiohttp, redis, postgresql.</p>
+                            <p>Технический стек проекта: django, telethon, aiohttp, redis, celery, postgresql.</p>
                         </div>
 
                         <div class="btn-left">
