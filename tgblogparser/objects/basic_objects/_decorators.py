@@ -32,8 +32,7 @@ class AuthorizationRequired(BasicURL):
             raise AuthorizationError()
         username = input("Enter your username: ")
         password = input("Enter your password: ")
-        async with http_session as session:
-            response = await session.post(self.url, data={"username": username, "password": password})
+        async with http_session.post(self.url, data={"username": username, "password": password}) as response:
             if response.status == 200:
                 print("U are successfully logged in")
                 return await response.json()

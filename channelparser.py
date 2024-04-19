@@ -6,7 +6,7 @@ from typing import Callable
 from tgblogparser.controller_calls import update_posts
 
 
-def entrypoint_until_complete(func: Callable, token: str = None):
+def entrypoint_until_complete(func: Callable = update_posts, token: str = None):
     asyncio.set_event_loop(loop)
     with client:
         loop.run_until_complete(func(token))

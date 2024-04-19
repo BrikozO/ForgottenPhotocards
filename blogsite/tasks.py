@@ -2,12 +2,12 @@ from django.core.mail import send_mail
 
 from ForgottenPhotocards import settings
 from ForgottenPhotocards.celery import app
-from channelparser import entrypoint
+from channelparser import entrypoint_until_complete
 
 
 @app.task
 def update_posts(token: str = None):
-    entrypoint(token)
+    entrypoint_until_complete(token=token)
 
 
 @app.task

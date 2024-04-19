@@ -7,9 +7,7 @@ async def update_posts(token: str = None):
     await RedisWorker.set_token_async(token)
     try:
         await update_all_posts()
-    except KeyboardInterrupt:
-        print("Программа была остановлена аварийно разработчиком")
     except Exception as e:
-        print(e)
+        print(f"Программа была остановлена аварийно разработчиком с ошибкой: {e}")
     finally:
         await http_session.close()
