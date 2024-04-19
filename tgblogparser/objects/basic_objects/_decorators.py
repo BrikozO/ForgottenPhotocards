@@ -3,6 +3,7 @@ import types
 
 import aiohttp
 from django.core.cache import cache
+from decouple import config
 
 from redisdb import RedisWorker
 from tgblogparser.config import client, http_session
@@ -54,7 +55,7 @@ def download_media(func):
 def clear_pictures_cache(func):
     async def wrapper(*args, **kwargs):
         res = await func(*args, **kwargs)
-        cache.delete('pictures')
+        cache.delete(config('PICTURES_CACHE_NAME'))
         return res
     return wrapper
 

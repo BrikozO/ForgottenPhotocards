@@ -1,3 +1,4 @@
+from decouple import config
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
@@ -15,7 +16,9 @@ from .tasks import update_posts
 
 
 def index(request):
-    pictures = cache.get_or_set('pictures', Picture.objects.filter(~Q(categories=None)).prefetch_related('categories').select_related('picture_post'))
+    pictures = cache.get_or_set(config('PICTURES_CACHE_NAME'),
+                                Picture.objects.filter(~Q(categories=None)).prefetch_related(
+                                    'categories').select_related('picture_post'))
     theme: str = request.COOKIES.get('theme')
     if request.method == 'POST':
         form = SendEmailMessageForm(request.POST)

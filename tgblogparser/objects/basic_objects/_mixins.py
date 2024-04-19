@@ -17,6 +17,7 @@ class ApiPostRequestMixin(BasicURL, BasicSerializer):
 
 class ApiGetRequestMixin(BasicURL):
 
+    @AuthorizationRequired
     async def get_request(self, *args) -> bool:
         uri: str = self.url
         token: str = await RedisWorker.get_user()
