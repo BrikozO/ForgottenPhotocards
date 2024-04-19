@@ -11,13 +11,10 @@ class Picture(ApiGetOrPostMixin):
         self.path = path
         self.image_filename = str(filename)
 
-    async def post_request(self, session: ClientSession):
+    async def post_request(self):
         with open(f"../blogdata/post_pictures/{self.path}", "rb") as f:
             setattr(self, 'image', f)
-            await super().post_request(session)
-
-    async def get_request(self, session: ClientSession, *args) -> bool:
-        return await super().get_request(session, self.picture_post, self.image_filename)
+            await super().post_request()
 
 
 class Post(ApiGetOrPostMixin):
@@ -28,9 +25,6 @@ class Post(ApiGetOrPostMixin):
         self.camera = camera
         self.lens = lens
         self.film = film
-
-    async def get_request(self, session: ClientSession, *args) -> bool:
-        return await super().get_request(session, self.grouped_id)
 
 
 __all__ = ['Picture', 'Post']

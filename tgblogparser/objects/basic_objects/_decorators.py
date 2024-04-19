@@ -4,7 +4,7 @@ import types
 import aiohttp
 
 from redisdb import RedisWorker
-from tgblogparser.config import client
+from tgblogparser.config import client, http_session
 from ._errors import AuthorizationError
 from ._objects import BasicURL
 
@@ -30,7 +30,7 @@ class AuthorizationRequired(BasicURL):
             raise AuthorizationError()
         username = input("Enter your username: ")
         password = input("Enter your password: ")
-        async with aiohttp.ClientSession() as session:
+        async with http_session as session:
             response = await session.post(self.url, data={"username": username, "password": password})
             if response.status == 200:
                 print("U are successfully logged in")

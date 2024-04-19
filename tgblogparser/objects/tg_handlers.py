@@ -1,4 +1,4 @@
-from .models import Picture, Post
+from tgblogparser.models import Picture, Post
 from tgblogparser.objects.basic_objects import download_media
 
 

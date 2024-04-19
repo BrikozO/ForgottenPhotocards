@@ -1,3 +1,4 @@
+import aiohttp
 import asyncio
 
 from decouple import config
@@ -8,6 +9,7 @@ api_hash = f'{config("API_HASH")}'
 channel = f'{config("PHOTOCARDS_CHANNEL")}'
 phone = f'{config("PHONE_NUMBER")}'
 password = f'{config("PASSWORD")}'
+http_session = aiohttp.ClientSession()
 
 try:
     asyncio.get_event_loop_policy().get_event_loop()

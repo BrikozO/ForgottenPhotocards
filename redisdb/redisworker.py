@@ -1,8 +1,14 @@
+from redisdb.config import redis_db
 from tgblogparser.config import client
-from .config import redis_db
 
 
 class RedisWorker:
+
+    @classmethod
+    async def set_token_async(cls, token):
+        if token and await cls.get_user() is None:
+            await cls.set_user(token)
+
     @staticmethod
     async def get_user() -> str:
         async with client:
