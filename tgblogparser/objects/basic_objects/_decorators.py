@@ -2,6 +2,7 @@ import os
 import types
 
 import aiohttp
+from django.core.cache import cache
 
 from redisdb import RedisWorker
 from tgblogparser.config import client, http_session
@@ -50,4 +51,12 @@ def download_media(func):
     return wrapper
 
 
-__all__ = ['AuthorizationRequired', 'download_media']
+def clear_pictures_cache(func):
+    async def wrapper(*args, **kwargs):
+        res = await func(*args, **kwargs)
+        cache.delete('pictures')
+        return res
+    return wrapper
+
+
+__all__ = ['AuthorizationRequired', 'download_media', 'clear_pictures_cache']
