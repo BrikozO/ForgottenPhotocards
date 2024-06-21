@@ -156,6 +156,7 @@ SPECTACULAR_SETTINGS = {
     "TITLE": 'Forgotten Photocards',
     "DESCRIPTION": 'API блога забытые фотокарточки',
     "VERSION": '1.0.1',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
 
 BS_ICONS_CUSTOM_PATH = 'blogsite/custom-icons'

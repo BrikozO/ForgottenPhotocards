@@ -1,5 +1,3 @@
-from aiohttp import ClientSession
-
 from tgblogparser.objects.mixins import ApiGetOrPostMixin
 
 

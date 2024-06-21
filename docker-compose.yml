@@ -1,45 +1,50 @@
+version: "3.8"
+
 services:
   web:
-    container_name: django_web
-    volumes:
-      - static_volume:/app/web/static
-      - media_volume:/app/web/blogdata
+    container_name: develop_web
     build:
       context: .
-      dockerfile: ./Dockerfile_prod
+      dockerfile: ./Dockerfile
     ports:
-      - 8000:8000
+      - "8000:8000"
     env_file:
-      - ./.env.docker_prod
+      - .env
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/blogdata
     depends_on:
       - db
       - redis
+    command: sh -c "python manage.py collectstatic --no-input &&
+               python manage.py makemigrations &&
+               python manage.py migrate &&
+               python manage.py runserver 0.0.0.0:8000"
   db:
-    container_name: postgres_db
+    container_name: develop_db
     image: postgres:latest
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     ports:
-      - 5432:5432
+      - "5432:5432"
     env_file:
-      - ./.env.docker_prod
+      - .env
   redis:
     container_name: redis_db
     image: redis:latest
     ports:
-      - 6379:6379
+      - "6379:6379"
     env_file:
-      - ./.env.docker_prod
+      - .env
     volumes:
       - redis:/data
   celery:
     container_name: celery
     build:
       context: .
-      dockerfile: ./Dockerfile_prod
     command: celery -A ForgottenPhotocards worker --loglevel=info
     env_file:
-      - ./.env.docker_prod
+      - .env
     depends_on:
       - db
       - redis
@@ -47,40 +52,15 @@ services:
     container_name: flower
     build:
       context: .
-      dockerfile: ./Dockerfile_prod
     command: celery -A ForgottenPhotocards flower
     ports:
-      - 5555:5555
+      - "5555:5555"
     env_file:
-      - ./.env.docker_prod
+      - .env
     depends_on:
       - db
       - redis
       - celery
-  nginx:
-    container_name: nginx_web
-    image: nginx:latest
-    volumes:
-      - static_volume:/app/web/static
-      - media_volume:/app/web/blogdata
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-      - ./nginxconf:/etc/nginx/conf.d
-    ports:
-      - 80:80
-      - 443:443
-    depends_on:
-      - web
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    command: certonly --webroot --webroot-path=/var/www/certbot/ --email moiapochta232@gmail.com --agree-tos --no-eff-email -d forgottenphotocards.ru -d www.forgottenphotocards.ru
-    depends_on:
-      - nginx
-
 volumes:
   static_volume:
   media_volume:

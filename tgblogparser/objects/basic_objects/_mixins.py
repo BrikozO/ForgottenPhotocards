@@ -1,7 +1,7 @@
-from ._decorators import AuthorizationRequired
-from ._objects import BasicURL, BasicSerializer
 from redisdb import RedisWorker
 from tgblogparser.config import http_session
+from ._decorators import AuthorizationRequired
+from ._objects import BasicURL, BasicSerializer
 
 
 class ApiPostRequestMixin(BasicURL, BasicSerializer):
@@ -23,8 +23,8 @@ class ApiGetRequestMixin(BasicURL):
         token: str = await RedisWorker.get_user()
         for arg in args:
             uri += f"{arg}/"
-
         async with http_session.get(uri, headers={"Authorization": f'Token {token}'}) as response:
+            await http_session.close()
             return response.status == 200
 
 
